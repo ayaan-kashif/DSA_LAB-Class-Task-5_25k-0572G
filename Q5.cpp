@@ -1,37 +1,95 @@
 #include <iostream>
-#include <stack>
-#include <stdexcept>
 using namespace std;
 
-class MyQueue {
+class Stack
+{
 private:
-    stack<int> incoming;
-    stack<int> outgoing;
+    struct Node
+    {
+        int value;
+        Node *next;
+    };
+
+    Node *topNode;
 
 public:
-    void enqueue(int value) {
-        incoming.push(value);
+    Stack()
+    {
+        topNode = nullptr;
     }
 
-    int dequeue() {
-        if (outgoing.empty()) {
-            while (!incoming.empty()) {
-                outgoing.push(incoming.top());
-                incoming.pop();
-            }
+    Stack(const Stack &) = delete;
+    Stack &operator=(const Stack &) = delete;
+
+    ~Stack()
+    {
+        while (!empty())
+        {
+            pop();
+        }
+    }
+
+    bool empty() const
+    {
+        return topNode == nullptr;
+    }
+
+    void push(int value)
+    {
+        Node *node = new Node;
+        node->value = value;
+        node->next = topNode;
+        topNode = node;
+    }
+
+    int pop()
+    {
+        if (empty())
+        {
+            throw "Stack is empty";
         }
 
-        if (outgoing.empty()) {
-            throw underflow_error("Queue is empty");
-        }
-
-        int value = outgoing.top();
-        outgoing.pop();
+        Node *node = topNode;
+        int value = node->value;
+        topNode = node->next;
+        delete node;
         return value;
     }
 };
 
-int main() {
+class MyQueue
+{
+private:
+    Stack incoming;
+    Stack outgoing;
+
+public:
+    void enqueue(int value)
+    {
+        incoming.push(value);
+    }
+
+    int dequeue()
+    {
+        if (outgoing.empty())
+        {
+            while (!incoming.empty())
+            {
+                outgoing.push(incoming.pop());
+            }
+        }
+
+        if (outgoing.empty())
+        {
+            throw "Queue is empty";
+        }
+
+        return outgoing.pop();
+    }
+};
+
+int main()
+{
     MyQueue queue;
 
     queue.enqueue('A');
