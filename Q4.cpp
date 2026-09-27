@@ -1,7 +1,8 @@
 #include <iostream>
 using namespace std;
 
-class CircularQueue {
+class CircularQueue
+{
 private:
     int passengers[6];
     int front;
@@ -9,14 +10,17 @@ private:
     int count;
 
 public:
-    CircularQueue() {
+    CircularQueue()
+    {
         front = 0;
         rear = -1;
         count = 0;
     }
 
-    void enqueue(int id) {
-        if (count == 6) {
+    void enqueue(int id)
+    {
+        if (count == 6)
+        {
             cout << "Gate is full. Passenger " << id << " cannot enter.\n";
             return;
         }
@@ -26,8 +30,10 @@ public:
         count++;
     }
 
-    void dequeue() {
-        if (count == 0) {
+    void dequeue()
+    {
+        if (count == 0)
+        {
             cout << "No passengers waiting.\n";
             return;
         }
@@ -37,14 +43,17 @@ public:
         count--;
     }
 
-    void display() const {
+    void display() const
+    {
         cout << "Passengers in boarding order:";
-        if (count == 0) {
+        if (count == 0)
+        {
             cout << " empty\n";
             return;
         }
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
+        {
             cout << ' ' << passengers[(front + i) % 6];
         }
         cout << "\nFront position (0-based): " << front;
@@ -52,14 +61,17 @@ public:
     }
 };
 
-int main() {
+int main()
+{
     CircularQueue gate;
 
-    for (int id = 101; id <= 106; id++) {
+    for (int id = 101; id <= 106; id++)
+    {
         gate.enqueue(id);
     }
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++)
+    {
         gate.dequeue();
     }
 
